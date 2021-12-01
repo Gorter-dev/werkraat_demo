@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "695797085527",
+    "project_id": "werkraat-d4369",
+    "storage_bucket": "werkraat-d4369.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695797085527:android:58bd06ba5082791260fa12",
+        "android_client_info": {
+          "package_name": "com.example.werkraat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695797085527-qmkhvgj0hfdehk5b1u70kno6jts94s2q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBnqDnMk_4xu0abG_-4acefqqzhHb0maY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695797085527-qmkhvgj0hfdehk5b1u70kno6jts94s2q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

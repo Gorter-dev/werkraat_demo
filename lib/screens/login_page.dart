@@ -1,3 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:werkraat/screens/home.dart';
@@ -22,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    Firebase.initializeApp();
     () async {
       _prefs = await SharedPreferences.getInstance();
       if (_prefs != null) {
@@ -76,14 +80,21 @@ class _LoginPageState extends State<LoginPage> {
               ),
               CustomButton(
                 text: "Inloggen",
-                onPressed: () {
+                onPressed: () async {
                   if (_emailController.text.isNotEmpty &&
                       _passwordController.text.isNotEmpty) {
-                    if (_prefs != null) {
-                      _prefs!.setString("email", _emailController.text);
-                      _prefs!.setString("password", _passwordController.text);
-                      _prefs!.setBool("rememberMe", RememberMe.value);
-                    }
+                    UserCredential user = await FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: _emailController.text,
+                            password: _passwordController.text);
+
+                    print(user.user!.email);
+
+                    // if (_prefs != null) {
+                    // _prefs!.setString("email", _emailController.text);
+                    // _prefs!.setString("password", _passwordController.text);
+                    // _prefs!.setBool("rememberMe", RememberMe.value);
+                    // }
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => Home(
