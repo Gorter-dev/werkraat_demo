@@ -90,6 +90,7 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () async {
                   if (_emailController.text.isNotEmpty &&
                       _passwordController.text.isNotEmpty) {
+                    //* SIGN IN
                     UserCredential user = await FirebaseAuth.instance
                         .signInWithEmailAndPassword(
                             email: _emailController.text,
@@ -97,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     print(user.user!.email);
 
-                    // TODO: Naar registratie
+                    //* CREATE USER PROFILE IN DATABASE
                     FirebaseFirestore.instance
                         .collection("userData")
                         .doc(user.user!.uid)
@@ -110,14 +111,12 @@ class _LoginPageState extends State<LoginPage> {
                         "song3",
                       ]
                     });
-                    Uint8List data;
 
-                    final ByteData bytes =
-                        await rootBundle.load('assets/images/song.mp3');
-                    data = bytes.buffer.asUint8List();
-
-                    // print(data);
-
+                    //* ADD FILE FROM ASSETS TO STORAGE
+                    // Uint8List data;
+                    // final ByteData bytes =
+                        // await rootBundle.load('assets/images/song.mp3');
+                    // data = bytes.buffer.asUint8List();
                     // try {
                     //   await FirebaseStorage.instance
                     //       .ref()
@@ -128,25 +127,27 @@ class _LoginPageState extends State<LoginPage> {
                     //   print("ERROR: $e");
                     // }
 
+                    //* GET USER PROFILE
                     List mySongs = [];
-
                     DocumentSnapshot doc = await FirebaseFirestore.instance
                         .collection("userData")
                         .doc(FirebaseAuth.instance.currentUser!.uid)
                         .get();
                     mySongs = (doc.data() as Map<String, dynamic>)["songs"];
-
                     print(mySongs);
 
+                    //* GET URL FROM SONG
                     String url = await FirebaseStorage.instance
                         .ref()
                         .child("songs")
                         .child("song2")
                         .getDownloadURL();
-
                     print(url);
 
+                    //* SET URL TO AUDIO PLAYER
                     player.setUrl(url);
+
+                    //* PLAY AUDIO
                     player.play();
 
                     Navigator.of(context).pushReplacement(
