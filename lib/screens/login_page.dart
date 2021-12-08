@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -90,11 +91,20 @@ class _LoginPageState extends State<LoginPage> {
 
                     print(user.user!.email);
 
-                    // if (_prefs != null) {
-                    // _prefs!.setString("email", _emailController.text);
-                    // _prefs!.setString("password", _passwordController.text);
-                    // _prefs!.setBool("rememberMe", RememberMe.value);
-                    // }
+                    // TODO: Naar registratie
+                    FirebaseFirestore.instance
+                        .collection("userData")
+                        .doc(user.user!.uid)
+                        .set({
+                      "name": "Steven",
+                      "email": user.user!.email,
+                      "songs": [
+                        "song1",
+                        "song2",
+                        "song3",
+                      ]
+                    });
+
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) => Home(

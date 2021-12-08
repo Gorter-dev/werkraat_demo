@@ -69,10 +69,11 @@ class _HomeState extends State<Home> {
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                         Navigator.of(context).pushReplacement(
-                                            MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        const LoginPage()));
+                                          MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                const LoginPage(),
+                                          ),
+                                        );
                                       },
                                       child: const Text('OK'),
                                     )
