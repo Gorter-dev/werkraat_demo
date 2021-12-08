@@ -1,8 +1,13 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:werkraat/screens/home.dart';
 import 'package:werkraat/widgets/background.dart';
@@ -22,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   SharedPreferences? _prefs;
+  AudioPlayer player = AudioPlayer();
 
   @override
   void initState() {
@@ -104,6 +110,44 @@ class _LoginPageState extends State<LoginPage> {
                         "song3",
                       ]
                     });
+                    Uint8List data;
+
+                    final ByteData bytes =
+                        await rootBundle.load('assets/images/song.mp3');
+                    data = bytes.buffer.asUint8List();
+
+                    // print(data);
+
+                    // try {
+                    //   await FirebaseStorage.instance
+                    //       .ref()
+                    //       .child("songs")
+                    //       .child("song2.mp3")
+                    //       .putData(data);
+                    // } catch (e) {
+                    //   print("ERROR: $e");
+                    // }
+
+                    List mySongs = [];
+
+                    DocumentSnapshot doc = await FirebaseFirestore.instance
+                        .collection("userData")
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .get();
+                    mySongs = (doc.data() as Map<String, dynamic>)["songs"];
+
+                    print(mySongs);
+
+                    String url = await FirebaseStorage.instance
+                        .ref()
+                        .child("songs")
+                        .child("song2")
+                        .getDownloadURL();
+
+                    print(url);
+
+                    player.setUrl(url);
+                    player.play();
 
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
